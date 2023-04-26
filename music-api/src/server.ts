@@ -8,7 +8,7 @@ const app = express();
 const PORT = 8000;
 
 const run = async () => {
-  await mongoose.connect('mongodb://localhost/')
+  await mongoose.connect('mongodb://localhost/music-api')
 
   app.listen(PORT, () => {
     logger.info(`Server is running on http://localhost:${PORT}`);
