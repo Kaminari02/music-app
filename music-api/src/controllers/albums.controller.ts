@@ -23,7 +23,7 @@ controller.get("/", async (req: Request, res: Response) => {
   try {
     if (req.query.artist) {
       const artist = req.query.artist as string;
-      const result = await Album.find({artist: artist});
+      const result = await Album.find({ artist: artist });
       if (result) {
         res.send(result);
       } else {
@@ -35,35 +35,41 @@ controller.get("/", async (req: Request, res: Response) => {
     }
   } catch (e) {
     res.sendStatus(500);
-    console.log(e)
+    console.log(e);
   }
 });
 
-controller.get('/:id', async (req: Request, res: Response) => {
-    const {id} = req.params
-    try {
-      const result = await Album.findById(id).populate('artist','title description image');
-      if (result) {
-        res.send(result)
-      } else {
-        res.sendStatus(404)
-      }
-    } catch (error) {
-      res.sendStatus(500)
+controller.get("/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const result = await Album.findById(id).populate(
+      "artist",
+      "title description image"
+    );
+    if (result) {
+      res.send(result);
+    } else {
+      res.sendStatus(404);
     }
-  })
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
 
-controller.post("/", upload.single("image"), async (req: Request, res: Response) => {
-    const { title, artist, release_date} = req.body as CreateAlbumDto;
-    let image = "";
-    if (req.file) {
-      image = req.file.filename;
-    }
-    const newArtist = new CreateAlbumDto(title, artist, release_date, image);
-    const result = new Album(newArtist);
-    await result.save();
-    res.send(result);
+controller.post(
+  "/",
+  upload.single("image"),
+  async (req: Request, res: Response) => {
     try {
+      const { title, artist, release_date } = req.body as CreateAlbumDto;
+      let image = "";
+      if (req.file) {
+        image = req.file.filename;
+      }
+      const newArtist = new CreateAlbumDto(title, artist, release_date, image);
+      const result = new Album(newArtist);
+      await result.save();
+      res.send(result);
     } catch (e) {
       res.status(400).send(e);
     }

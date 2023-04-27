@@ -28,17 +28,20 @@ controller.get("/", async (req: Request, res: Response) => {
   }
 });
 
-controller.post("/", upload.single("image"), async (req: Request, res: Response) => {
-    const { title, description } = req.body as CreateArtistDto;
-    let image = "";
-    if (req.file) {
-      image = req.file.filename;
-    }
-    const artist = new CreateArtistDto(title, image, description)
-    const result = new Artist(artist);
-    await result.save();
-    res.send(result);
+controller.post(
+  "/",
+  upload.single("image"),
+  async (req: Request, res: Response) => {
     try {
+      const { title, description } = req.body as CreateArtistDto;
+      let image = "";
+      if (req.file) {
+        image = req.file.filename;
+      }
+      const artist = new CreateArtistDto(title, image, description);
+      const result = new Artist(artist);
+      await result.save();
+      res.send(result);
     } catch (e) {
       res.status(400).send(e);
     }

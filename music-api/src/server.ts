@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import process from "process";
 import artistsController from '@src/controllers/artists.controller';
 import albumController from '@src/controllers/albums.controller';
+import trackController from '@src/controllers/tracks.controller'
 
 const app = express();
 const PORT = 8000;
@@ -29,5 +30,6 @@ app.use(cors());
 // Controllers
 app.use('/artists', artistsController);
 app.use('/albums', albumController);
+app.use('/tracks', trackController);
 
 run().catch((e) => logger.err(e)); 
