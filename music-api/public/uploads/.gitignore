@@ -1,2 +1,10 @@
 *
+!albums
+albums/*
+!artists
+artists/*
+!artists/muse.jpg
+!artists/MGMT.webp
+!albums/absolution.jpg
+!albums/mgmtAlbum.jpg
 !.gitignore

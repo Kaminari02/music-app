@@ -79,5 +79,9 @@
 , "config.ts", "src/controllers/artists.controller.ts"  ],
   "exclude": [
     "src/public/"
-  ]
+  ],
+  "eslint.workingDirectories": [
+      "src",
+      "./"
+    ]
 }
