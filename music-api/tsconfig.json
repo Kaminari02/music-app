@@ -76,7 +76,7 @@
     "src/**/*.ts",
     "spec/**/*.ts",
     "build.ts"
-, "config.ts", "src/controllers/.controller.ts"  ],
+, "config.ts", "src/controllers/artists.controller.ts"  ],
   "exclude": [
     "src/public/"
   ]

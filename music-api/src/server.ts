@@ -3,6 +3,7 @@ import logger from "jet-logger/lib";
 import cors from "cors";
 import mongoose from "mongoose";
 import process from "process";
+import artistsController from '@src/controllers/artists.controller'
 
 const app = express();
 const PORT = 8000;
@@ -25,5 +26,6 @@ app.use(express.static("public"));
 app.use(cors());
 
 // Controllers
+app.use('/artists', artistsController)
 
 run().catch((e) => logger.err(e)); 
