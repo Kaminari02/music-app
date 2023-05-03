@@ -1,5 +1,4 @@
 import { Router, Request, Response } from "express";
-import { nanoid } from "nanoid";
 import User from "@src/models/User";
 import { AuthCredentialsDto } from "@src/dto/AuthCredentials.dto";
 

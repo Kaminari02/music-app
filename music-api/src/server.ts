@@ -7,6 +7,7 @@ import artistsController from '@src/controllers/artists.controller';
 import albumController from '@src/controllers/albums.controller';
 import trackController from '@src/controllers/tracks.controller';
 import userAuthController from '@src/controllers/auth.controller';
+import trackHistoryController from '@src/controllers/track_history.controller';
 
 const app = express();
 const PORT = 8000;
@@ -33,5 +34,6 @@ app.use('/artists', artistsController);
 app.use('/albums', albumController);
 app.use('/tracks', trackController);
 app.use('/auth', userAuthController);
+app.use('/track_history', trackHistoryController);
 
 run().catch((e) => logger.err(e)); 

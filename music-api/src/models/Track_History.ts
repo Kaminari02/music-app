@@ -13,10 +13,10 @@ const Track_HistorySchema = new Schema({
   },
   datetime: {
     type: Date,
-    required: true
+    default: () => new Date().toISOString()
   }
 });
 
-const Track_History = model("track", Track_HistorySchema);
+const Track_History = model("track_history", Track_HistorySchema);
 
 export default Track_History;
