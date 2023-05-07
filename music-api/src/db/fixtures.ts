@@ -77,5 +77,5 @@ db.once('open', async () => {
     datetime: '2023-05-03T11:21:55.681+00:00'
   })
 
-  db.close();
+  await db.close();
 });
