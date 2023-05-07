@@ -38,7 +38,7 @@ db.once('open', async () => {
   }, {
     title: 'Congratulations',
     artist: mgmtArtist._id,
-    image: 'mgmtAlbum.jpg',
+    image: 'Congratulations.png',
     release_date: '2010'
   }, {
     title: 'Oracular Spectacular',

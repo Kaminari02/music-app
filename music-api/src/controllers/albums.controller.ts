@@ -23,15 +23,15 @@ controller.get("/", async (req: Request, res: Response) => {
   try {
     if (req.query.artist) {
       const artist = req.query.artist as string;
-      const result = await Album.find({ artist: artist });
+      const result = (await Album.find({ artist: artist }).populate('artist').sort({release_date: 1}));
       if (result) {
         res.send(result);
       } else {
         res.sendStatus(400);
       }
     } else {
-      const artists = await Album.find();
-      res.send(artists);
+      const albums = await Album.find();
+      res.send(albums);
     }
   } catch (e) {
     res.sendStatus(500);
@@ -66,8 +66,8 @@ controller.post(
       if (req.file) {
         image = req.file.filename;
       }
-      const newArtist = new CreateAlbumDto(title, artist, release_date, image);
-      const result = new Album(newArtist);
+      const newAlbum = new CreateAlbumDto(title, artist, release_date, image);
+      const result = new Album(newAlbum);
       await result.save();
       res.send(result);
     } catch (e) {

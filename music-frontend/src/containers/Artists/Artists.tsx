@@ -1,6 +1,5 @@
 import React from 'react';
-import {Link} from "react-router-dom";
-import { Typography, Grid, Button} from '@mui/material';
+import { Typography, Grid} from '@mui/material';
 import {useGetArtistsQuery} from '@/store/services/music';
 import ArtistItem from '@/components/Artist/ArtistItem';
 
@@ -9,12 +8,7 @@ const Artists = () => {
 
   return (
     <Grid container direction="column" spacing={2}>
-      <Grid
-        sx={{justifyContent: "space-between", alignItems: "center"}}
-        item
-        container
-        direction="row"
-      >
+      <Grid item container direction="row">
         <Grid item>
           <Typography variant="h4">
             Artists
@@ -25,6 +19,7 @@ const Artists = () => {
         {artists && artists.map(artist => (
           <ArtistItem
             key={artist._id}
+            id={artist._id}
             title={artist.title}
             image={artist.image}
           />
