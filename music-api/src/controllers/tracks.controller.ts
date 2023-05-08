@@ -8,10 +8,7 @@ controller.get("/", async (req: Request, res: Response) => {
   try {
     if (req.query.album) {
       const album = req.query.album as string;
-      const result = await Track.find({ album: album }).populate(
-        "album",
-        "title artist release-date"
-      );
+      const result = await Track.find({ album: album }).populate({path: 'album', populate: 'artist'}).sort({track_num: 1});
       if (result) {
         res.send(result);
       } else {
@@ -28,7 +25,10 @@ controller.get("/", async (req: Request, res: Response) => {
 
 controller.post("/", async (req: Request, res: Response) => {
   const { title, album, duration } = req.body as CreateTrackDto;
-  const track = new CreateTrackDto(title, album, duration);
+
+  let track_number = 0;
+  track_number++
+  const track = new CreateTrackDto(title, album, duration, track_number);
   const result = new Track(track);
   try {
     await result.save();

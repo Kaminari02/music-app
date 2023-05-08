@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {makeStyles} from "@mui/styles";
-import {Typography, Toolbar, AppBar, Grid, Button} from '@mui/material';
+import {Typography, Toolbar, AppBar, Grid} from '@mui/material';
 import { Theme } from '@mui/material/styles';
 
 const useStyles = makeStyles<Theme>(theme => ({

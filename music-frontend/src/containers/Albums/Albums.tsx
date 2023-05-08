@@ -34,15 +34,14 @@ const Albums = () => {
                             alt={albums && albums[0].artist.title}
                         />
                     </Card>
-                </Grid>  
+                </Grid>
             </Grid>
             <Grid item>
-                    <Typography variant="h4">
-                        <Divider>Albums</Divider>
-                    </Typography>
-                </Grid>
+                <Typography variant="h4">
+                    <Divider>Albums</Divider>
+                </Typography>
+            </Grid>
             <Grid item container direction="row" spacing={1} xs>
-
                 {albums && albums.map(album => (
                     <AlbumItem
                         key={album._id}

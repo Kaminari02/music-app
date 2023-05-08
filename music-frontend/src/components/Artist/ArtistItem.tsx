@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Grid, Card, CardHeader, CardContent, CardActions, CardMedia, Button } from '@mui/material';
+import { Grid, Card, CardHeader, CardActions, CardMedia, Button } from '@mui/material';
 import { apiUrl } from '@/common/constants';
 
 interface Props {
