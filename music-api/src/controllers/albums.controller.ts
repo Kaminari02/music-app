@@ -5,6 +5,7 @@ import multer from "multer";
 import path from "path";
 import { albumPath } from "config";
 import { CreateAlbumDto } from "@src/dto/CreateAlbum.dto";
+import Track from "@src/models/Track";
 
 const controller = express.Router();
 
@@ -24,6 +25,10 @@ controller.get("/", async (req: Request, res: Response) => {
     if (req.query.artist) {
       const artist = req.query.artist as string;
       const result = (await Album.find({ artist: artist }).populate('artist').sort({release_date: 1}));
+      result.forEach(async album => {
+        const result = await Track.countDocuments({album: album})
+        console.log(result)
+      })
       if (result) {
         res.send(result);
       } else {
