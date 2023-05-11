@@ -126,7 +126,7 @@ const Login = () => {
               fullWidth
               variant='contained'
               color='primary'
-              sx={{marginTop: 3, marginBottom: 2}}
+              sx={{marginTop: 3, marginBottom: 2, bgcolor: '#4caf50', color: '#fff', "&:hover": { bgcolor: '#81c784' }}}
             >
               Sign in
             </Button>
