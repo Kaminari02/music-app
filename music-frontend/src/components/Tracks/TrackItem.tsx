@@ -8,13 +8,14 @@ interface Props {
   track_num: number;
   title: string;
   duration: string;
+  handleSaveTrack: () => Promise<void>
 }
 
-const TrackItem = ({ track_num, title, duration }: Props) => {
+const TrackItem = ({ track_num, title, duration, handleSaveTrack }: Props) => {
 
   return (
     <>
-      <ListItem>
+      <ListItem sx={{cursor: 'pointer'}} onClick={handleSaveTrack}>
         <ListItemText primary={`${track_num}. ${title}`} secondary={duration}/>
       </ListItem>
       <Divider />

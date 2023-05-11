@@ -2,6 +2,7 @@ import {api} from '@/store/services/index';
 import { IArtist } from '@/interfaces/IArtist';
 import { IAlbum } from '@/interfaces/IAlbum';
 import { ITrack } from '@/interfaces/ITrack';
+import { ITrackHistory } from '@/interfaces/ITrackHistory';
 
 const musicApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -13,9 +14,16 @@ const musicApi = api.injectEndpoints({
     }),
     getTracks: build.query<ITrack[], string | undefined>({
       query: (albumId) => `tracks?album=${albumId}`
-    })
+    }),
+    saveTrack: build.mutation<ITrackHistory, string>({
+      query: (id) => ({
+        url: "track_history",
+        method: "post",
+        body: {id: id},
+      }),
+    }),
   }),
   overrideExisting: false,
 })
 
-export const { useGetArtistsQuery, useGetAlbumsQuery, useGetTracksQuery } = musicApi;
+export const { useGetArtistsQuery, useGetAlbumsQuery, useGetTracksQuery, useSaveTrackMutation } = musicApi;

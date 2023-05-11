@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Card, CardContent, CardMedia, Divider, Grid, Typography, List } from "@mui/material";
-import { useGetTracksQuery } from "@/store/services/music";
+import { Box, Card, CardContent, CardMedia, Divider, Grid, Typography, List, Snackbar } from "@mui/material";
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { useGetTracksQuery, useSaveTrackMutation } from "@/store/services/music";
 import { apiUrl } from "@/common/constants";
 import TrackItem from "@/components/Tracks/TrackItem";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { CustomError } from "@/interfaces/errors/CustomError";
+import { ITrack } from "@/interfaces/ITrack";
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Tracks = () => {
   const style = {
@@ -11,6 +22,8 @@ const Tracks = () => {
     maxWidth: 360,
     bgcolor: 'background.paper',
   };
+
+  const { user } = useAppSelector(state => state.auth);
 
   const { id } = useParams();
 
@@ -21,8 +34,36 @@ const Tracks = () => {
     albumImage = `${apiUrl}/uploads/albums/${tracks[0].album.image}`;
   }
 
+  const [saveTrack] = useSaveTrackMutation();
+  const [open, setOpen] = useState(false);
+
+  const handleSaveTrack = async (id: string) => {
+    await saveTrack(id);
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   return (
     <Grid container direction="column" spacing={5} marginBottom={5}>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        {user ? 
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          {`Track has been added to your history`}
+        </Alert>  
+        :
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {`You have to sign in for saving track to your history!`}
+        </Alert>}
+        
+      </Snackbar>
       <Grid item>
         <Typography variant="h1" component="h2">{tracks && tracks[0].album.artist.title}</Typography>
       </Grid>
@@ -54,6 +95,7 @@ const Tracks = () => {
         <List sx={style}>
           {tracks && tracks.map(track => (
             <TrackItem
+              handleSaveTrack={() => handleSaveTrack(track._id)}
               key={track._id}
               title={track.title}
               track_num={track.track_num}

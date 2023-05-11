@@ -7,17 +7,16 @@ const controller = Router();
 
 controller.post('/', async (req: Request, res: Response) => {
     const token = req.get('Authorization');
-
+    
     if(!token) {
         return res.status(401).send({error: 'No token presented'})
     }
     const user = await User.findOne({token})
-
+    
     if(!user) {
         return res.status(401).send({error: 'Wrong token!'})
     }
-
-    const track = req.body.track as string;
+    const track = req.body.id as string;
     
     const trackHistory = new CreateTrackHistoryDto(user.id, track);
     const newTrackHistory = new Track_History(trackHistory);
@@ -25,6 +24,7 @@ controller.post('/', async (req: Request, res: Response) => {
         await newTrackHistory.save();
         res.send(newTrackHistory)
     } catch (error) {
+        console.log(error)
         res.status(400).send(error);
     }
 })
