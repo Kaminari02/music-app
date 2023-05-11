@@ -6,8 +6,6 @@ import { useGetTracksQuery, useSaveTrackMutation } from "@/store/services/music"
 import { apiUrl } from "@/common/constants";
 import TrackItem from "@/components/Tracks/TrackItem";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import { CustomError } from "@/interfaces/errors/CustomError";
-import { ITrack } from "@/interfaces/ITrack";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,

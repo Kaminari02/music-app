@@ -17,13 +17,18 @@ const musicApi = api.injectEndpoints({
     }),
     saveTrack: build.mutation<ITrackHistory, string>({
       query: (id) => ({
-        url: "track_history",
+        url: "/track_history",
         method: "post",
         body: {id: id},
+        invalidatesTags: ['History'],
       }),
+    }),
+    getTrackHistory: build.query<ITrackHistory[], void>({
+      query: () => `/track_history`,
+      providesTags: () => [{type: 'History', id: 'LIST'}]
     }),
   }),
   overrideExisting: false,
 })
 
-export const { useGetArtistsQuery, useGetAlbumsQuery, useGetTracksQuery, useSaveTrackMutation } = musicApi;
+export const { useGetArtistsQuery, useGetAlbumsQuery, useGetTracksQuery, useSaveTrackMutation, useGetTrackHistoryQuery } = musicApi;

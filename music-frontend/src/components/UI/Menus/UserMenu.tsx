@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import { IUser } from '@/interfaces/IUser';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   user: IUser;
@@ -23,6 +24,11 @@ export default function UserMenu({ user }: Props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const navigate = useNavigate();
+  const handleHistory = () => {
+    navigate('/track_history')
+  }
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -78,8 +84,8 @@ export default function UserMenu({ user }: Props) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
+        <MenuItem onClick={handleHistory}>
+          <Avatar /> Track history
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <Avatar /> My account

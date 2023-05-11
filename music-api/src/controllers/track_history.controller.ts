@@ -5,6 +5,64 @@ import { CreateTrackHistoryDto } from "@src/dto/CreateTrackHistory.dto";
 
 const controller = Router();
 
+controller.get("/", async (req: Request, res: Response) => {
+    try {
+        const token = req.get('Authorization');
+        if(!token) {
+            return res.status(401).send({error: 'No token presented'})
+        }
+        const user = await User.findOne({token})
+        
+        if(!user) {
+            return res.status(401).send({error: 'Wrong token!'})
+        }
+        const result = (await Track_History.aggregate([
+            {
+            $lookup: {
+                from: 'tracks',
+                localField: 'track',
+                foreignField: '_id',
+                as: 'track'
+            }
+        },
+            {
+                $lookup: {
+                from: 'albums',
+                localField: 'track.album',
+                foreignField: '_id',
+                as: 'album'
+            }
+        },
+        {
+            $lookup: {
+                from: 'artists',
+                localField: 'album.artist',
+                foreignField: '_id',
+                as: 'artist'
+            }
+        },
+        {
+            $match: {
+                user: user._id,
+            }
+        },{
+            $sort: {
+                datetime: -1,
+            }
+        },
+        ]));
+
+        if (result) {
+          res.send(result);
+        } else {
+          res.sendStatus(400);
+        }
+      
+    } catch (e) {
+      res.sendStatus(500);
+    }
+  });
+
 controller.post('/', async (req: Request, res: Response) => {
     const token = req.get('Authorization');
     
