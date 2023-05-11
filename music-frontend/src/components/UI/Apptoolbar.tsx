@@ -1,8 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {makeStyles} from "@mui/styles";
-import {Typography, Toolbar, AppBar, Grid} from '@mui/material';
+import {Typography, Toolbar, AppBar, Grid, Button} from '@mui/material';
 import { Theme } from '@mui/material/styles';
+import { useAppSelector } from '@/hooks/reduxHooks';
+import UserMenu from './Menus/UserMenu';
 
 const useStyles = makeStyles<Theme>(theme => ({
   mainLink: {
@@ -19,6 +21,7 @@ const useStyles = makeStyles<Theme>(theme => ({
 
 const AppToolbar = () => {
   const classes = useStyles();
+  const { user } = useAppSelector(state => state.auth);
   return (
     <>
       <AppBar position="fixed" sx={{ bgcolor: '#4caf50' }}>
@@ -27,6 +30,19 @@ const AppToolbar = () => {
             <Typography variant="h6">
               <Link to="/" className={classes.mainLink}>Spotify</Link>
             </Typography>
+            {
+              user ? (
+                <Grid item>
+                  <UserMenu user={user} />
+                </Grid>
+              ) : (
+                <Grid item>
+                  <Button color='inherit' component={Link} to='/register'>
+                    Sign up
+                  </Button>
+                </Grid>
+              )
+            }
           </Grid>
         </Toolbar>
       </AppBar>
