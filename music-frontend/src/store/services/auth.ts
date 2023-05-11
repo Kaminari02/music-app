@@ -11,9 +11,16 @@ export const authApi = api.injectEndpoints({
         body,
       }),
     }),
+    signIn: build.mutation<IUser, UserForm>({
+      query: (body) => ({
+        url: "auth/signin",
+        method: "post",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useSignUpMutation } = authApi;
+export const { useSignUpMutation, useSignInMutation } = authApi;
 
 export default authApi;

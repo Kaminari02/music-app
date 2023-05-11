@@ -40,6 +40,9 @@ const AppToolbar = () => {
                   <Button color='inherit' component={Link} to='/register'>
                     Sign up
                   </Button>
+                  <Button color='inherit' component={Link} to='/login'>
+                    Sign in
+                  </Button>
                 </Grid>
               )
             }
