@@ -34,4 +34,22 @@ controller.post('/signin', async (req: Request, res: Response) => {
     }
 });
 
+controller.delete('/logout', async (req: Request, res: Response) => {
+    const token = req.get('Authorization');
+  
+    if(!token) {
+      return res.status(401).send({error: 'No token presented'});
+    }
+  
+    const user = await User.findOne({token});
+  
+    if(!user) {
+      return res.send({ message: `Logout success`});
+    } 
+    user.generateToken();
+    await  user.save({validateBeforeSave: false})
+    return res.send({message: 'Logout success'})
+  
+});
+
 export default controller;
