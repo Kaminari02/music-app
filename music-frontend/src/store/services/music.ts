@@ -20,12 +20,12 @@ const musicApi = api.injectEndpoints({
         url: "/track_history",
         method: "post",
         body: {id: id},
-        invalidatesTags: ['History'],
       }),
+      invalidatesTags: ['History'],
     }),
     getTrackHistory: build.query<ITrackHistory[], void>({
       query: () => `/track_history`,
-      providesTags: () => [{type: 'History', id: 'LIST'}]
+      providesTags: ['History']
     }),
   }),
   overrideExisting: false,
