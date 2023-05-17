@@ -7,7 +7,6 @@ import {
   FetchBaseQueryMeta
 } from '@reduxjs/toolkit/query/react';
 import { apiUrl } from '@/common/constants';
-import { REHYDRATE } from 'redux-persist';
 import {RootState} from '@/store/store';
 import {MongooseError} from '@/interfaces/errors/MongooseError';
 import {CustomError} from '@/interfaces/errors/CustomError';
