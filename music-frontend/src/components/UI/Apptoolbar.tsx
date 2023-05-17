@@ -5,6 +5,8 @@ import {Typography, Toolbar, AppBar, Grid, Button} from '@mui/material';
 import { Theme } from '@mui/material/styles';
 import { useAppSelector } from '@/hooks/reduxHooks';
 import UserMenu from './Menus/UserMenu';
+import AnonymousMenu from './Menus/AnonymousMenu';
+import { useLogoutMutation } from '@/store/services/auth';
 
 const useStyles = makeStyles<Theme>(theme => ({
   mainLink: {
@@ -22,6 +24,10 @@ const useStyles = makeStyles<Theme>(theme => ({
 const AppToolbar = () => {
   const classes = useStyles();
   const { user } = useAppSelector(state => state.auth);
+  const [logout] = useLogoutMutation();
+  const handleLogout = async() => {
+    await logout();
+  }
   return (
     <>
       <AppBar position="fixed" sx={{ bgcolor: '#4caf50' }}>
@@ -33,16 +39,11 @@ const AppToolbar = () => {
             {
               user ? (
                 <Grid item>
-                  <UserMenu user={user} />
+                  <UserMenu logout={handleLogout} user={user} />
                 </Grid>
               ) : (
                 <Grid item>
-                  <Button color='inherit' component={Link} to='/register'>
-                    Sign up
-                  </Button>
-                  <Button color='inherit' component={Link} to='/login'>
-                    Sign in
-                  </Button>
+                  <AnonymousMenu />
                 </Grid>
               )
             }

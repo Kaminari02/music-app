@@ -18,6 +18,12 @@ export const authApi = api.injectEndpoints({
         body,
       }),
     }),
+    logout: build.mutation<void, void>({
+      query: () => ({
+        url: "/logout",
+        method: "delete",
+      }),
+    }),
   }),
 });
 

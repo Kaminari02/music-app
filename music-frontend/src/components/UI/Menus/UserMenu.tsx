@@ -14,8 +14,9 @@ import { useNavigate } from 'react-router-dom';
 
 interface Props {
   user: IUser;
+  logout: () => Promise<void>;
 }
-export default function UserMenu({ user }: Props) {
+export default function UserMenu({ user, logout }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -24,6 +25,10 @@ export default function UserMenu({ user }: Props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleLogout = async() => {
+    await logout();
+    handleClose();
+  }
   const navigate = useNavigate();
   const handleHistory = () => {
     navigate('/track_history')
@@ -91,7 +96,7 @@ export default function UserMenu({ user }: Props) {
           <Avatar /> My account
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

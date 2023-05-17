@@ -1,5 +1,4 @@
-import { Box, Card, CardContent, CardMedia, Divider, Grid, Typography, List, Snackbar } from "@mui/material";
-import { apiUrl } from "@/common/constants";
+import { Divider, Grid, Typography, List } from "@mui/material";
 import TrackHistoryItem from "@/components/Tracks/TrackHistoryItem";
 import { useGetTrackHistoryQuery } from "@/store/services/music";
 
