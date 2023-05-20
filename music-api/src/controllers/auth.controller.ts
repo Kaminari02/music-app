@@ -1,6 +1,8 @@
 import { Router, Request, Response } from "express";
 import User from "@src/models/User";
 import { AuthCredentialsDto } from "@src/dto/AuthCredentials.dto";
+import authMiddleware from '../middlewares/auth.middleware';
+import {IRequest} from '../interfaces/IRequest';
 
 const controller = Router();
 
@@ -34,21 +36,10 @@ controller.post('/signin', async (req: Request, res: Response) => {
     }
 });
 
-controller.delete('/logout', async (req: Request, res: Response) => {
-    const token = req.get('Authorization');
-  
-    if(!token) {
-      return res.status(401).send({error: 'No token presented'});
-    }
-  
-    const user = await User.findOne({token});
-  
-    if(!user) {
-      return res.send({ message: `Logout success`});
-    } 
-    user.generateToken();
-    await  user.save({validateBeforeSave: false})
-    return res.send({message: 'Logout success'})
+controller.delete('/logout', authMiddleware, async (req: IRequest, res: Response) => {
+    req.user.generateToken();
+    await req.user.save({ validateBeforeSave: false });
+    return res.send({message: 'Logout success'});
   
 });
 
