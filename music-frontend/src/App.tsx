@@ -9,6 +9,7 @@ import Register from './containers/Register/Register';
 import Login from './containers/Login/Login';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import TrackHistory from './containers/TrackHistory/TrackHistory';
+import NewArtist from './containers/NewArtist/NewArtist';
 import { useAppSelector } from './hooks/reduxHooks';
 
 const App = () => {
@@ -35,9 +36,14 @@ const App = () => {
                 <Register/>
               </ProtectedRoute>
             )} />
-            <Route path='/login' element={(
+          <Route path='/login' element={(
               <ProtectedRoute isAllowed={!user} redirectPath='/'>
                 <Login/>
+              </ProtectedRoute>
+            )} />
+          <Route path='/newArtist' element={(
+              <ProtectedRoute isAllowed={!!user} redirectPath='/'>
+                <NewArtist/>
               </ProtectedRoute>
             )} />
         </Routes>

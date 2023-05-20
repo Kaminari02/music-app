@@ -10,9 +10,11 @@ interface Props {
     id?: string;
     required?: boolean;
     error?: string;
+    multiline?: boolean;
+    rows?: number;
 }
 
-const FormElement = ({value, label, name, onChange, type, id, required = false, error}: Props) => {
+const FormElement = ({value, label, name, onChange, type, id, required = false, error, multiline, rows}: Props) => {
     return (
         <Grid item xs={12}>
             <TextField
@@ -27,6 +29,8 @@ const FormElement = ({value, label, name, onChange, type, id, required = false, 
                 label={label}
                 error={!!error}
                 helperText={error}
+                multiline={multiline}
+                rows={rows}
             />
         </Grid>
     )

@@ -92,8 +92,8 @@ export default function UserMenu({ user, logout }: Props) {
         <MenuItem onClick={handleHistory}>
           <Avatar /> Track history
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
+        <MenuItem onClick={() => {navigate('/newArtist')}}>
+          <Avatar /> Add Artist
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleLogout}>
