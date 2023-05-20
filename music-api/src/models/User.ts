@@ -3,7 +3,7 @@ import * as bcrypt from "bcrypt";
 import { nanoid } from "nanoid";
 import {IUser, IUserMethods, IUserWithoutPassword,
 } from "@src/interfaces/IUser";
-import { UserRole } from '@src/helpers/enums/UserRole.enum';
+import { UserRole } from '../helpers/enums/UserRole.enum';
 
 type UserModel = Model<IUser, object, IUserMethods>;
 
