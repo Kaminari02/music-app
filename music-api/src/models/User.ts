@@ -1,57 +1,68 @@
 import { Model, Schema, model } from "mongoose";
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from "bcrypt";
 import { nanoid } from "nanoid";
+import {IUser, IUserMethods, IUserWithoutPassword,
+} from "@src/interfaces/IUser";
+import { UserRole } from '@src/helpers/enums/UserRole.enum';
 
-const SALT_WORK_FACTOR = 10;
+type UserModel = Model<IUser, object, IUserMethods>;
 
-interface IUser {
-    username: string;
-    password: string;
-    token: string;
-    checkPassword: (password: string) => boolean;
-    generateToken: () => void;
-}
 const UserSchema = new Schema<IUser, Model<IUser, object>>({
-    username: {
-        type: String,
-        required: true,
-        unique: true
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: async (username: string) => {
+        const user = await User.findOne({ username });
+        if (user) {
+          return false;
+        }
+      },
+      message: "This user is already registered",
     },
-    password: {
-        type: String,
-        required: true
-    },
-    token: {
-        type: String,
-        required: true
-    }
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  token: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    required: true,
+    default: UserRole.User,
+    enum: [UserRole.Admin, UserRole.User],
+  },
 });
 
-UserSchema.pre('save', async function(next) {
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
 
-    if (!this.isModified('password')) return next();
-  
-    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
-  
-    this.password = await bcrypt.hash(this.password, salt);
-  
-    next();
-  
-  });
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 
-UserSchema.set('toJSON', {
-    transform: (_, ret) => {
-        delete ret.password
-        return ret;
-    },
-})
+  next();
+});
 
-UserSchema.methods.checkPassword = function(password: string) {
-    return bcrypt.compare(password, this.password);
-}
-UserSchema.methods.generateToken = function() {
-    this.token = nanoid();
-}
+UserSchema.set("toJSON", {
+  transform: (_, ret: IUserWithoutPassword) => {
+    delete ret.password;
+    return ret;
+  }
+});
 
-const User = model('user', UserSchema);
+UserSchema.method("checkPassword", function (this: IUser, password: string) {
+  return bcrypt.compare(password, this.password);
+});
+
+UserSchema.methods.generateToken = function (this: IUser) {
+  this.token = nanoid();
+};
+
+const User = model<IUser, UserModel>("User", UserSchema);
+
+export type UserDocument = Document & Omit<IUser & Required<{ _id: Schema.Types.ObjectId }>, keyof IUserMethods> & IUserMethods;
 export default User;
