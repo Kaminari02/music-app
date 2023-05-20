@@ -27,33 +27,37 @@ db.once("open", async () => {
       title: "Muse",
       description: "Rock band from England",
       image: "muse.jpg",
+      published: true
     },
     {
       title: "MGMT",
       description: "indie rock band from US",
       image: "MGMT.webp",
+      published: true
     }
   );
 
-  const [absolutionAlbum, congratulationAlbum, oracularAlbum] =
-    await Album.create(
+  const [absolutionAlbum, congratulationAlbum, oracularAlbum] = await Album.create(
       {
         title: "Absolution",
         artist: museArtist._id,
         image: "absolution.jpg",
         release_date: "2003",
+        published: true
       },
       {
         title: "Congratulations",
         artist: mgmtArtist._id,
         image: "Congratulations.png",
         release_date: "2010",
+        published: true
       },
       {
         title: "Oracular Spectacular",
         artist: mgmtArtist._id,
         image: "mgmtAlbum.jpg",
         release_date: "2007",
+        published: true
       }
     );
 
@@ -62,31 +66,36 @@ db.once("open", async () => {
       title: "Kids",
       album: oracularAlbum._id,
       duration: "5:03",
-      track_num: 1
+      track_num: 1,
+      published: true
     },
     {
       title: "Time to Pretend",
       album: oracularAlbum._id,
       duration: "4:21",
-      track_num: 2
+      track_num: 2,
+      published: true
     },
     {
       title: "Weekend Wars",
       album: oracularAlbum._id,
       duration: "4:10",
-      track_num: 3
+      track_num: 3,
+      published: true
     },
     {
       title: "Electric Feel",
       album: oracularAlbum._id,
       duration: "3:49",
-      track_num: 4
+      track_num: 4,
+      published: true
     },
     {
       title: "Pieces of What",
       album: oracularAlbum._id,
       duration: "2:49",
-      track_num: 5
+      track_num: 5,
+      published: true
     }
   );
 
@@ -95,31 +104,36 @@ db.once("open", async () => {
       title: "Sing for Absolution",
       album: absolutionAlbum._id,
       duration: "4:55",
-      track_num: 1
+      track_num: 1,
+      published: true
     },
     {
       title: "Blackout",
       album: absolutionAlbum._id,
       duration: "4:23",
-      track_num: 2
+      track_num: 2,
+      published: true
     },
     {
       title: "Time is Running Out",
       album: absolutionAlbum._id,
       duration: "3:57",
-      track_num: 3
+      track_num: 3,
+      published: true
     },
     {
       title: "Stockholm Syndrome",
       album: absolutionAlbum._id,
       duration: "4:57",
-      track_num: 4
+      track_num: 4,
+      published: true
     },
     {
       title: "Hysteria",
       album: absolutionAlbum._id,
       duration: "3:47",
-      track_num: 5
+      track_num: 5,
+      published: true
     }
   );
 
@@ -128,31 +142,36 @@ db.once("open", async () => {
       title: "Flash Delirium",
       album: congratulationAlbum._id,
       duration: "4:16",
-      track_num: 1
+      track_num: 1,
+      published: true
     },
     {
       title: "Congratulations",
       album: congratulationAlbum._id,
       duration: "3:55",
-      track_num: 2
+      track_num: 2,
+      published: true
     },
     {
       title: "Little Dark Age",
       album: congratulationAlbum._id,
       duration: "4:59",
-      track_num: 3
+      track_num: 3,
+      published: true
     },
     {
       title: "TSLAMP",
       album: congratulationAlbum._id,
       duration: "4:30",
-      track_num: 4
+      track_num: 4,
+      published: true
     },
     {
       title: "Hand it Over",
       album: congratulationAlbum._id,
       duration: "3:55",
-      track_num: 5
+      track_num: 5,
+      published: true
     }
   );
 
