@@ -18,7 +18,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 const Tracks = () => {
   const style = {
     width: '100%',
-    maxWidth: 360,
+    maxWidth: 400,
     bgcolor: 'background.paper',
   };
 
@@ -95,13 +95,30 @@ const Tracks = () => {
           <Grid item container direction="row" spacing={1} xs>
             <List sx={style}>
               {tracks && tracks.map(track => (
-                <TrackItem
-                  handleSaveTrack={() => handleSaveTrack(track._id)}
-                  key={track._id}
-                  title={track.title}
-                  track_num={track.track_num}
-                  duration={track.duration}
-                />
+                user === null ?
+                  track.published ?
+                    <TrackItem
+                      published={track.published}
+                      handleSaveTrack={() => handleSaveTrack(track._id)}
+                      key={track._id}
+                      title={track.title}
+                      track_num={track.track_num}
+                      duration={track.duration}
+                    />
+                  :
+                    null
+                  :
+                  track.published || user.role === 'Admin' ?
+                    <TrackItem
+                      published={track.published}
+                      handleSaveTrack={() => handleSaveTrack(track._id)}
+                      key={track._id}
+                      title={track.title}
+                      track_num={track.track_num}
+                      duration={track.duration}
+                    />
+                    :
+                    null
               ))}
             </List>
           </Grid>
