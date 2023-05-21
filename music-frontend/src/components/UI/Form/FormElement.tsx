@@ -1,4 +1,7 @@
-import { TextField, Grid } from "@mui/material";
+import { IAlbum } from "@/interfaces/IAlbum";
+import { IArtist } from "@/interfaces/IArtist";
+import { ITrack } from "@/interfaces/ITrack";
+import { TextField, Grid, MenuItem } from "@mui/material";
 import { ChangeEventHandler, HTMLInputTypeAttribute } from "react";
 
 interface Props {
@@ -12,9 +15,24 @@ interface Props {
     error?: string;
     multiline?: boolean;
     rows?: number;
+    options?: IArtist[] | IAlbum[] | ITrack[];
+    select?: boolean
 }
 
-const FormElement = ({value, label, name, onChange, type, id, required = false, error, multiline, rows}: Props) => {
+const FormElement = ({value, label, name, onChange, type, id, required = false, error, multiline, rows, options, select}: Props) => {
+    let inputChildren = null;
+    if (type === 'select') {
+        if(options) {
+            inputChildren = options.map((option) => (
+    
+                <MenuItem key={option._id} value={option._id}>
+          
+                  {option.title}
+          
+                </MenuItem>
+          ))
+        }
+    }
     return (
         <Grid item xs={12}>
             <TextField
@@ -31,7 +49,8 @@ const FormElement = ({value, label, name, onChange, type, id, required = false, 
                 helperText={error}
                 multiline={multiline}
                 rows={rows}
-            />
+                select={select}
+            >{inputChildren}: {<div></div>}</TextField>
         </Grid>
     )
 }

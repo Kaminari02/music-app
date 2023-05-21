@@ -1,9 +1,10 @@
-import React, { useState, FormEvent, ChangeEvent, useEffect } from "react";
+import React, { useState, FormEvent, ChangeEvent } from "react";
 import { makeStyles } from "@mui/styles";
-import { Alert, Box, Button, Grid, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Grid, Snackbar, Typography } from "@mui/material";
 import { Theme } from '@mui/material/styles';
 import FileUpload from "../UI/Form/FileUpload";
 import FormElement from "../UI/Form/FormElement";
+import { useGetArtistsQuery } from "@/store/services/artist";
 
 const useStyles = makeStyles<Theme>(theme => ({
     paper: {
@@ -24,18 +25,21 @@ interface Props {
     onSubmit: (product: FormData) => void;
 }
 
-interface ArtistForm {
+interface AlbumForm {
     title: string;
-    description: string;
+    artist: string;
     image: string;
+    release_date: string;
 }
 
-const ArtistForm = ({ onSubmit }: Props) => {
+const AlbumForm = ({ onSubmit }: Props) => {
     const classes = useStyles();
+    const { data: artists } = useGetArtistsQuery();
 
-    const [state, setState] = useState<ArtistForm>({
+    const [state, setState] = useState<AlbumForm>({
         title: "",
-        description: "",
+        artist: "",
+        release_date: "",
         image: ""
     });
     const [open, setOpen] = useState(false);
@@ -46,7 +50,7 @@ const ArtistForm = ({ onSubmit }: Props) => {
 
     const submitFormHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!state.description || !state.image || !state.title) {
+        if (!state.title || !state.image || !state.image || !state.artist) {
             setOpen(true)
         } else {
             setOpen(false)
@@ -58,7 +62,7 @@ const ArtistForm = ({ onSubmit }: Props) => {
         }
     };
 
-    const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputChangeHandler = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
         setState(prevState => {
             return { ...prevState, [name]: value };
@@ -100,21 +104,28 @@ const ArtistForm = ({ onSubmit }: Props) => {
                     <Box className={classes.form}>
                         <Grid container spacing={2} maxWidth='600px' marginLeft={0.2}>
                             <FormElement
+                                type="select"
+                                name="artist"
+                                label="Artist's name"
+                                required={true}
+                                select={true}
+                                options={artists}
+                                value={state.artist}
+                                onChange={inputChangeHandler} />
+                            <FormElement
                                 required
                                 value={state.title}
                                 onChange={inputChangeHandler}
                                 name='title'
-                                label={`Artist's name`}
+                                label={`Album's title`}
                             />
                             <FormElement
                                 required
-                                value={state.description}
+                                value={state.release_date}
                                 onChange={inputChangeHandler}
-                                name='description'
-                                label='Description'
-                                id='description'
-                                rows={4}
-                                multiline={true}
+                                name='release_date'
+                                label='Release_date'
+                                id='release_date'
                             />
                         </Grid>
                     </Box>
@@ -130,4 +141,4 @@ const ArtistForm = ({ onSubmit }: Props) => {
     );
 };
 
-export default ArtistForm;
+export default AlbumForm;

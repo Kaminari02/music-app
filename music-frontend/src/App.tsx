@@ -10,6 +10,7 @@ import Login from './containers/Login/Login';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import TrackHistory from './containers/TrackHistory/TrackHistory';
 import NewArtist from './containers/NewArtist/NewArtist';
+import NewAlbum from './containers/NewAlbum/NewAlbum';
 import { useAppSelector } from './hooks/reduxHooks';
 
 const App = () => {
@@ -44,6 +45,11 @@ const App = () => {
           <Route path='/newArtist' element={(
               <ProtectedRoute isAllowed={!!user} redirectPath='/'>
                 <NewArtist/>
+              </ProtectedRoute>
+            )} />
+          <Route path='/newAlbum' element={(
+              <ProtectedRoute isAllowed={!!user} redirectPath='/'>
+                <NewAlbum/>
               </ProtectedRoute>
             )} />
         </Routes>

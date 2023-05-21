@@ -6,6 +6,8 @@ import path from "path";
 import { albumPath } from "config";
 import { CreateAlbumDto } from "@src/dto/CreateAlbum.dto";
 import Track from "@src/models/Track";
+import Artist from "@src/models/Artist";
+
 
 const controller = express.Router();
 
@@ -67,14 +69,19 @@ controller.post(
   async (req: Request, res: Response) => {
     try {
       const { title, artist, release_date } = req.body as CreateAlbumDto;
+      const artistId = await Artist.findOne({title: artist}).exec()
       let image = "";
       if (req.file) {
         image = req.file.filename;
       }
-      const newAlbum = new CreateAlbumDto(title, artist, release_date, image);
-      const result = new Album(newAlbum);
-      await result.save();
-      res.send(result);
+      if(artistId) {
+        const newAlbum = new CreateAlbumDto(title, artistId.id, release_date, image);
+        const result = new Album(newAlbum);
+        await result.save();
+        res.send(result);
+      } else {
+        res.status(404).send({error: 'No such artist presented'});
+      } 
     } catch (e) {
       res.status(400).send(e);
     }

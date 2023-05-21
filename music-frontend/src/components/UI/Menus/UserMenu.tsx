@@ -11,6 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import { IUser } from '@/interfaces/IUser';
 import { useNavigate } from 'react-router-dom';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 interface Props {
   user: IUser;
@@ -93,7 +94,16 @@ export default function UserMenu({ user, logout }: Props) {
           <Avatar /> Track history
         </MenuItem>
         <MenuItem onClick={() => {navigate('/newArtist')}}>
-          <Avatar /> Add Artist
+          <ListItemIcon>
+            <AddBoxIcon fontSize="small" />
+          </ListItemIcon>
+          Add Artist
+        </MenuItem>
+        <MenuItem onClick={() => {navigate('/newAlbum')}}>
+          <ListItemIcon>
+            <AddBoxIcon fontSize="small" />
+          </ListItemIcon>
+          Add Album
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleLogout}>
