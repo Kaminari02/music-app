@@ -8,7 +8,6 @@ import { CreateAlbumDto } from "@src/dto/CreateAlbum.dto";
 import Track from "@src/models/Track";
 import Artist from "@src/models/Artist";
 
-
 const controller = express.Router();
 
 const storage = multer.diskStorage({
@@ -22,15 +21,33 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+controller.post(
+  "/",
+  upload.single("image"),
+  async (req: Request, res: Response) => {
+    try {
+      const { title, artist, release_date } = req.body as CreateAlbumDto;
+      let image = "";
+      if (req.file) {
+        image = req.file.filename;
+      }
+      const newAlbum = new CreateAlbumDto(title, artist, release_date, image);
+      const result = new Album(newAlbum);
+      await result.save();
+      res.send(result);
+    } catch (e) {
+      res.status(400).send(e);
+    }
+  }
+);
+
 controller.get("/", async (req: Request, res: Response) => {
   try {
     if (req.query.artist) {
       const artist = req.query.artist as string;
-      const result = (await Album.find({ artist: artist }).populate('artist').sort({release_date: 1}));
-      result.forEach(async album => {
-        const result = await Track.countDocuments({album: album})
-        console.log(result)
-      })
+      const result = await Album.find({ artist: artist })
+        .populate("artist")
+        .sort({ release_date: 1 });
       if (result) {
         res.send(result);
       } else {
@@ -62,30 +79,5 @@ controller.get("/:id", async (req: Request, res: Response) => {
     res.sendStatus(500);
   }
 });
-
-controller.post(
-  "/",
-  upload.single("image"),
-  async (req: Request, res: Response) => {
-    try {
-      const { title, artist, release_date } = req.body as CreateAlbumDto;
-      const artistId = await Artist.findOne({title: artist}).exec()
-      let image = "";
-      if (req.file) {
-        image = req.file.filename;
-      }
-      if(artistId) {
-        const newAlbum = new CreateAlbumDto(title, artistId.id, release_date, image);
-        const result = new Album(newAlbum);
-        await result.save();
-        res.send(result);
-      } else {
-        res.status(404).send({error: 'No such artist presented'});
-      } 
-    } catch (e) {
-      res.status(400).send(e);
-    }
-  }
-);
 
 export default controller;

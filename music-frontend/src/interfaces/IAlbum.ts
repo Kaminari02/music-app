@@ -1,4 +1,5 @@
 export interface IAlbum {
+    published: boolean;
     title: string;
     image: string;
     release_date: string;
