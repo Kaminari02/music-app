@@ -1,23 +1,25 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Grid, Card, CardHeader, CardActions, CardMedia, Button } from '@mui/material';
+import { Grid, Card, CardHeader, CardActions, CardMedia, Button, Chip, CardContent } from '@mui/material';
 import { apiUrl } from '@/common/constants';
 
 interface Props {
   title: string;
   image: string;
   id: string
+  published: boolean;
 }
 
-const ArtistItem = ({ title, image, id }: Props) => {
+const ArtistItem = ({ title, image, id, published }: Props) => {
   let cardImage;
 
   if (image) {
     cardImage = `${apiUrl}/uploads/artists/${image}`;
   }
   return (
-    <Grid item xs={12} sm={12} md={6} lg={4} minWidth={350}>
+    <Grid sx={{marginTop: 5}} item xs={12} sm={12} md={6} lg={4} minWidth={350}>
       <Card sx={{ height: "100%", maxWidth: 345 }}>
+        {!published ? <CardContent><Chip label="unpublished" /></CardContent> : null}
         {cardImage ? <CardMedia sx={{ height: 350 }} image={cardImage} title={title} /> : null}
         <CardHeader title={title} />
         <CardActions>

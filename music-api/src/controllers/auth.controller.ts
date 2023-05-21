@@ -29,7 +29,7 @@ controller.post('/signin', async (req: Request, res: Response) => {
             return res.status(400).send({error: 'password is wrong'});
         }
         user.generateToken();
-        user.save()
+        user.save({ validateBeforeSave: false })
         res.send(user)
     } else {
         return res.status(400).send({error: 'password is required'});
