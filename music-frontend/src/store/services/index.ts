@@ -23,5 +23,5 @@ export const api = createApi({
     }
   }) as BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError | MongooseError | CustomError | {error: object}, {}, FetchBaseQueryMeta>,
   endpoints: () => ({}),
-  tagTypes: ['History'],
+  tagTypes: ['History', 'Artist', 'Album', 'Track'],
 });

@@ -1,6 +1,6 @@
 import { Divider, Grid, Typography, List } from "@mui/material";
 import TrackHistoryItem from "@/components/Tracks/TrackHistoryItem";
-import { useGetTrackHistoryQuery } from "@/store/services/music";
+import { useGetTrackHistoryQuery } from "@/store/services/trackHistory";
 
 const TrackHistory = () => {
     const style = {

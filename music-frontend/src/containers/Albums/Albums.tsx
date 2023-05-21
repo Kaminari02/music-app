@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetAlbumsQuery } from "@/store/services/music";
+import { useGetAlbumsQuery } from "@/store/services/album";
 import { Box, Card, CardContent, CardMedia, Grid, Typography, Divider } from "@mui/material";
 import AlbumItem from "@/components/Albums/AlbumItem";
 import { apiUrl } from "@/common/constants";

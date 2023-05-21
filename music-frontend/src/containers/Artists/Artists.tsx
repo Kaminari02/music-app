@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Grid} from '@mui/material';
-import {useGetArtistsQuery} from '@/store/services/music';
+import {useGetArtistsQuery} from '@/store/services/artist';
 import ArtistItem from '@/components/Artist/ArtistItem';
 
 const Artists = () => {
