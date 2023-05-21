@@ -2,9 +2,9 @@ import React, { useState, FormEvent, ChangeEvent } from "react";
 import { makeStyles } from "@mui/styles";
 import { Alert, Box, Button, Grid, Snackbar, Typography } from "@mui/material";
 import { Theme } from '@mui/material/styles';
-import FileUpload from "../UI/Form/FileUpload";
 import FormElement from "../UI/Form/FormElement";
-import { useGetArtistsQuery } from "@/store/services/artist";
+import { useGetAlbumsQuery } from "@/store/services/album";
+import { IPostTrack } from "@/interfaces/IPostTrack";
 
 const useStyles = makeStyles<Theme>(theme => ({
     paper: {
@@ -22,25 +22,23 @@ const useStyles = makeStyles<Theme>(theme => ({
 }));
 
 interface Props {
-    onSubmit: (album: FormData) => void;
+    onSubmit: (track: IPostTrack) => void;
 }
 
-interface AlbumForm {
+interface TrackForm {
     title: string;
-    artist: string;
-    image: string;
-    release_date: string;
+    album: string;
+    duration: string;
 }
 
-const AlbumForm = ({ onSubmit }: Props) => {
+const TrackForm = ({ onSubmit }: Props) => {
     const classes = useStyles();
-    const { data: artists } = useGetArtistsQuery();
+    const { data: albums } = useGetAlbumsQuery();
 
-    const [state, setState] = useState<AlbumForm>({
+    const [state, setState] = useState<TrackForm>({
         title: "",
-        artist: "",
-        release_date: "",
-        image: ""
+        album: "",
+        duration: ""
     });
     const [open, setOpen] = useState(false);
 
@@ -50,15 +48,16 @@ const AlbumForm = ({ onSubmit }: Props) => {
 
     const submitFormHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!state.title || !state.release_date || !state.image || !state.artist) {
+        if (!state.title || !state.album || !state.duration ) {
             setOpen(true)
         } else {
             setOpen(false)
-            const formData = new FormData();
-            for (let key in state) {
-                formData.append(key, state[key as keyof typeof state])
+            const data = {
+                title: state.title,
+                album: state.album,
+                duration: state.duration
             }
-            onSubmit(formData);
+            onSubmit(data);
         }
     };
 
@@ -68,17 +67,6 @@ const AlbumForm = ({ onSubmit }: Props) => {
             return { ...prevState, [name]: value };
         });
     };
-
-    const fileChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        const name = e.target.name;
-        if (e.target.files) {
-            const file = e.target.files[0];
-            setState(prevState => ({
-                ...prevState,
-                [name]: file
-            }))
-        }
-    }
 
     return (
         <form
@@ -105,35 +93,32 @@ const AlbumForm = ({ onSubmit }: Props) => {
                         <Grid container spacing={2} maxWidth='600px' marginLeft={0.2}>
                             <FormElement
                                 type="select"
-                                name="artist"
-                                label="Artist's name"
+                                name="album"
+                                label="Album's name"
                                 required={true}
                                 select={true}
-                                options={artists}
-                                value={state.artist}
+                                options={albums}
+                                value={state.album}
                                 onChange={inputChangeHandler} />
                             <FormElement
                                 required
                                 value={state.title}
                                 onChange={inputChangeHandler}
                                 name='title'
-                                label={`Album's title`}
+                                label={`Track's title`}
                             />
                             <FormElement
                                 required
-                                value={state.release_date}
+                                value={state.duration}
+                                placeholder="4:22"
                                 onChange={inputChangeHandler}
-                                name='release_date'
-                                label='Release_date'
-                                id='release_date'
-                                placeholder="2023"
+                                name='duration'
+                                label='Duration'
+                                id='duration'
                             />
                         </Grid>
                     </Box>
                 </Box>
-                <Grid item xs>
-                    <FileUpload label="Image" name='image' onChange={fileChangeHandler}></FileUpload>
-                </Grid>
                 <Grid item xs>
                     <Button type="submit" variant="contained">Send</Button>
                 </Grid>
@@ -142,4 +127,4 @@ const AlbumForm = ({ onSubmit }: Props) => {
     );
 };
 
-export default AlbumForm;
+export default TrackForm;

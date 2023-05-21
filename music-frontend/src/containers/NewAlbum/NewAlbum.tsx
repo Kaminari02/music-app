@@ -8,8 +8,8 @@ const NewAlbum = () => {
     const navigate = useNavigate();
     const [addAlbum] = useAddAlbumMutation();
 
-    const onNewsFormSubmit = async (post: FormData) => {
-        const data = await addAlbum(post);
+    const onAlbumFormSubmit = async (album: FormData) => {
+        const data = await addAlbum(album);
         if (!(data as { error: object }).error) {
             navigate('/');
         }
@@ -17,7 +17,7 @@ const NewAlbum = () => {
 
     return (
         <>
-            <AlbumForm onSubmit={onNewsFormSubmit} />
+            <AlbumForm onSubmit={onAlbumFormSubmit} />
         </>
     );
 };

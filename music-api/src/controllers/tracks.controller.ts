@@ -26,9 +26,9 @@ controller.get("/", async (req: Request, res: Response) => {
 controller.post("/", async (req: Request, res: Response) => {
   const { title, album, duration } = req.body as CreateTrackDto;
 
-  let track_number = 0;
-  track_number++
-  const track = new CreateTrackDto(title, album, duration, track_number);
+  let track_number = await Track.find({album: album});
+  console.log(track_number)
+  const track = new CreateTrackDto(title, album, duration, track_number.length);
   const result = new Track(track);
   try {
     await result.save();

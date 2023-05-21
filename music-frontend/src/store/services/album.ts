@@ -3,7 +3,11 @@ import { IAlbum } from '@/interfaces/IAlbum';
 
 const albumApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getAlbums: build.query<IAlbum[], string | undefined>({
+    getAlbums: build.query<IAlbum[], void>({
+        query: () => `/albums`,
+        providesTags: ['Album']
+    }),
+    getAlbumsByArtist: build.query<IAlbum[], string | undefined>({
       query: (artistId) => `/albums?artist=${artistId}`,
       providesTags: ['Album']
     }),
@@ -19,4 +23,4 @@ const albumApi = api.injectEndpoints({
   overrideExisting: false,
 })
 
-export const {  useGetAlbumsQuery, useAddAlbumMutation } = albumApi;
+export const {  useGetAlbumsQuery, useGetAlbumsByArtistQuery, useAddAlbumMutation } = albumApi;

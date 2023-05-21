@@ -105,6 +105,12 @@ export default function UserMenu({ user, logout }: Props) {
           </ListItemIcon>
           Add Album
         </MenuItem>
+        <MenuItem onClick={() => {navigate('/newTrack')}}>
+          <ListItemIcon>
+            <AddBoxIcon fontSize="small" />
+          </ListItemIcon>
+          Add Track
+        </MenuItem>
         <Divider />
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>

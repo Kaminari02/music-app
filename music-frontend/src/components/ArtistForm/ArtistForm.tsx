@@ -21,7 +21,7 @@ const useStyles = makeStyles<Theme>(theme => ({
 }));
 
 interface Props {
-    onSubmit: (product: FormData) => void;
+    onSubmit: (artist: FormData) => void;
 }
 
 interface ArtistForm {

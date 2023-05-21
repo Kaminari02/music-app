@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetAlbumsQuery } from "@/store/services/album";
+import { useGetAlbumsByArtistQuery } from "@/store/services/album";
 import { Box, Card, CardContent, CardMedia, Grid, Typography, Divider } from "@mui/material";
 import AlbumItem from "@/components/Albums/AlbumItem";
 import { useAppSelector } from '@/hooks/reduxHooks';
@@ -11,7 +11,7 @@ const Albums = () => {
     let artistImage;
 
     const { user } = useAppSelector(state => state.auth);
-    const { data: albums } = useGetAlbumsQuery(id);
+    const { data: albums } = useGetAlbumsByArtistQuery(id);
 
     if (albums && albums.length > 0) {
         artistImage = `${apiUrl}/uploads/artists/${albums[0].artist.image}`;

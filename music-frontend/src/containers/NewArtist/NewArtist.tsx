@@ -8,8 +8,8 @@ const NewArtist = () => {
     const navigate = useNavigate();
     const [addArtist] = useAddArtistMutation();
 
-    const onNewsFormSubmit = async (post: FormData) => {
-        const data = await addArtist(post);
+    const onArtistFormSubmit = async (artist: FormData) => {
+        const data = await addArtist(artist);
         if (!(data as { error: object }).error) {
             navigate('/');
         }
@@ -17,7 +17,7 @@ const NewArtist = () => {
 
     return (
         <>
-            <ArtistForm onSubmit={onNewsFormSubmit} />
+            <ArtistForm onSubmit={onArtistFormSubmit} />
         </>
     );
 };

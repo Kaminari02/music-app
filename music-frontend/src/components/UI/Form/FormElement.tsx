@@ -16,10 +16,11 @@ interface Props {
     multiline?: boolean;
     rows?: number;
     options?: IArtist[] | IAlbum[] | ITrack[];
-    select?: boolean
+    select?: boolean;
+    placeholder?: string
 }
 
-const FormElement = ({value, label, name, onChange, type, id, required = false, error, multiline, rows, options, select}: Props) => {
+const FormElement = ({value, label, name, onChange, type, id, required = false, error, multiline, rows, options, select, placeholder}: Props) => {
     let inputChildren = null;
     if (type === 'select') {
         if(options) {
@@ -50,6 +51,7 @@ const FormElement = ({value, label, name, onChange, type, id, required = false, 
                 multiline={multiline}
                 rows={rows}
                 select={select}
+                placeholder={placeholder}
             >{inputChildren}: {<div></div>}</TextField>
         </Grid>
     )
