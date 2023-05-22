@@ -21,7 +21,6 @@ const artistApi = api.injectEndpoints({
           return {
             url: `/artists/${id}/publish`,
             method: "put",
-            credentials: "include",
             body
           };
         },

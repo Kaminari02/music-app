@@ -57,12 +57,8 @@ controller.put(
   async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      console.log(id)
       if (id) {
-        const result = await Artist.findOneAndUpdate({
-          _id: id,
-          published: true,
-        });
+        const result = await Artist.findOneAndUpdate({_id: id},{$set:{published: true}});
         if (result) {
           await result.save();
           res.send(result);

@@ -27,14 +27,7 @@ const run = async () => {
 // Middlewares
 app.use(express.json());
 app.use(express.static("public"));
-const corsOptions = {
-  credentials: true, 
-}
-app.use(cors(corsOptions));
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+app.use(cors());
 
 // Controllers
 app.use('/artists', artistsController);
