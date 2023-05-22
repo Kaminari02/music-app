@@ -1,12 +1,17 @@
 import React from 'react';
 import { Typography, Grid} from '@mui/material';
-import {useGetArtistsQuery} from '@/store/services/artist';
+import {useGetArtistsQuery, useUpdatePostMutation} from '@/store/services/artist';
 import ArtistItem from '@/components/Artist/ArtistItem';
 import { useAppSelector } from '@/hooks/reduxHooks';
+import { IArtist } from '@/interfaces/IArtist';
 
 const Artists = () => {
   const { data: artists } = useGetArtistsQuery();
   const { user } = useAppSelector(state => state.auth);
+  const [updatePost] = useUpdatePostMutation();
+  const handleUpdate = async (id: string, artist: IArtist) => {
+    await updatePost({id: id, body: artist})
+  }
 
   return (
     <Grid sx={{marginBottom: 5}} container direction="column" spacing={2}>
@@ -33,6 +38,7 @@ const Artists = () => {
           :
           artist.published || user.role === 'Admin'  ?
               <ArtistItem
+                updateArtist={() => handleUpdate(artist._id, artist)}
                 role={user.role}
                 published={artist.published}
                 key={artist._id}

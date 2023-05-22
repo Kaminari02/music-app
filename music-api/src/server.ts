@@ -10,7 +10,7 @@ import userAuthController from '@src/controllers/auth.controller';
 import trackHistoryController from '@src/controllers/track_history.controller';
 
 const app = express();
-const PORT = 8000;
+const PORT = 9000;
 
 const run = async () => {
   await mongoose.connect('mongodb://localhost/music-api')
@@ -27,7 +27,14 @@ const run = async () => {
 // Middlewares
 app.use(express.json());
 app.use(express.static("public"));
-app.use(cors());
+const corsOptions = {
+  credentials: true, 
+}
+app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 // Controllers
 app.use('/artists', artistsController);

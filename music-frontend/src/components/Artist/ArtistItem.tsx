@@ -4,6 +4,7 @@ import { Grid, Card, CardHeader, CardActions, CardMedia, Button, Chip, CardConte
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { apiUrl } from '@/common/constants';
+import { IArtist } from '@/interfaces/IArtist';
 
 interface Props {
   title: string;
@@ -11,9 +12,10 @@ interface Props {
   id: string
   published: boolean;
   role?: string | null;
+  updateArtist?: () => Promise<void>
 }
 
-const ArtistItem = ({ title, image, id, published, role }: Props) => {
+const ArtistItem = ({ title, image, id, published, role, updateArtist }: Props) => {
   let cardImage;
 
   if (image) {
@@ -25,7 +27,7 @@ const ArtistItem = ({ title, image, id, published, role }: Props) => {
         <CardContent sx={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
           {!published ? 
         <>
-          <Chip label="unpublished" /><IconButton aria-label="publish"><ArrowCircleUpIcon /></IconButton>
+          <Chip label="unpublished" /><IconButton onClick={updateArtist} aria-label="publish"><ArrowCircleUpIcon /></IconButton>
         </>
          : null}
          {role === 'Admin' ? <IconButton aria-label="delete"><DeleteIcon /></IconButton> : null}

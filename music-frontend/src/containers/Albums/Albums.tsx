@@ -52,7 +52,6 @@ const Albums = () => {
                                 user === null ?
                                     album.published ?
                                         <AlbumItem
-                                            role={user.role}
                                             published={album.published}
                                             key={album._id}
                                             id={album._id}
