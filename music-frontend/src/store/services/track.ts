@@ -28,8 +28,15 @@ const trackApi = api.injectEndpoints({
           invalidatesTags: ["Track"]
         }
     ),
+    deleteTrack: build.mutation<ITrack , string >({
+        query:(id) => ({
+               url:`/tracks/${id}`,
+               method:'delete',
+        }),
+        invalidatesTags:['Track']
+    }),
   }),
   overrideExisting: false,
 })
 
-export const { useGetTracksQuery, useAddTrackMutation, useUpdateTrackMutation } = trackApi;
+export const { useGetTracksQuery, useAddTrackMutation, useUpdateTrackMutation, useDeleteTrackMutation } = trackApi;

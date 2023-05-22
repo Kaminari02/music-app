@@ -90,19 +90,40 @@ controller.put(
     try {
       const { id } = req.params;
       if (id) {
-        const result = await Album.findOneAndUpdate({_id: id},{$set:{published: true}});
+        const result = await Album.findOneAndUpdate(
+          { _id: id },
+          { $set: { published: true } }
+        );
         if (result) {
           await result.save();
           res.send(result);
         } else {
-          return res.status(404).send({error: 'no such album'});
+          return res.status(404).send({ error: "no such album" });
         }
       } else {
-        return res.status(400).send({error: 'wrong id'});
+        return res.status(400).send({ error: "wrong id" });
       }
     } catch (e) {
       res.status(400).send(e);
-      console.log(e)
+      console.log(e);
+    }
+  }
+);
+
+controller.delete(
+  "/:id",
+  [authMiddleware, permitMiddleware(UserRole.Admin)],
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const reqAlbum = await Album.findByIdAndRemove(id);
+
+      if (reqAlbum) {
+        const responceTrack = await Track.deleteMany({ album: id });
+        res.send(responceTrack);
+      }
+    } catch (error) {
+      res.status(404).send("Error");
     }
   }
 );

@@ -27,8 +27,15 @@ const artistApi = api.injectEndpoints({
         invalidatesTags: ["Artist"]
       }
     ),
+    deleteArtist: build.mutation<IArtist , string >({
+        query:(id) => ({
+               url:`/artists/${id}`,
+               method:'delete',
+        }),
+        invalidatesTags:['Artist', 'Album' , 'Track']
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetArtistsQuery, useAddArtistMutation, useUpdateArtistMutation } = artistApi;
+export const { useGetArtistsQuery, useAddArtistMutation, useUpdateArtistMutation, useDeleteArtistMutation } = artistApi;

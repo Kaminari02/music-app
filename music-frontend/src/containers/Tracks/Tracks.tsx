@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Card, CardContent, CardMedia, Divider, Grid, Typography, List, Snackbar } from "@mui/material";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { useGetTracksQuery, useUpdateTrackMutation } from "@/store/services/track";
+import { useGetTracksQuery, useUpdateTrackMutation, useDeleteTrackMutation } from "@/store/services/track";
 import { useSaveTrackMutation } from "@/store/services/trackHistory";
 import { apiUrl } from "@/common/constants";
 import TrackItem from "@/components/Tracks/TrackItem";
@@ -31,6 +31,10 @@ const Tracks = () => {
   const [updateTrack] = useUpdateTrackMutation();
   const handleUpdate = async (id: string, artist: ITrack) => {
     await updateTrack({id: id, body: artist})
+  }
+  const [deleteTrack] = useDeleteTrackMutation();
+  const handleDelete = async (id: string) => {
+    await deleteTrack(id)
   }
   let albumImage;
 
@@ -115,6 +119,7 @@ const Tracks = () => {
                   :
                   track.published || user.role === 'Admin' ?
                     <TrackItem
+                      deleteTrack={() => handleDelete(track._id)}
                       updateTrack={() => handleUpdate(track._id, track)}
                       role={user.role}
                       published={track.published}

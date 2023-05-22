@@ -12,10 +12,11 @@ interface Props {
   id: string
   published: boolean;
   role?: string | null;
-  updateArtist?: () => Promise<void>
+  updateArtist?: () => Promise<void>;
+  deleteArtist?: () => Promise<void>;
 }
 
-const ArtistItem = ({ title, image, id, published, role, updateArtist }: Props) => {
+const ArtistItem = ({ title, image, id, published, role, updateArtist, deleteArtist }: Props) => {
   let cardImage;
 
   if (image) {
@@ -30,7 +31,7 @@ const ArtistItem = ({ title, image, id, published, role, updateArtist }: Props) 
           <Chip label="unpublished" /><IconButton onClick={updateArtist} aria-label="publish"><ArrowCircleUpIcon /></IconButton>
         </>
          : null}
-         {role === 'Admin' ? <IconButton aria-label="delete"><DeleteIcon /></IconButton> : null}
+         {role === 'Admin' ? <IconButton onClick={deleteArtist} aria-label="delete"><DeleteIcon /></IconButton> : null}
          </CardContent>
         
         {cardImage ? <CardMedia sx={{ height: 350 }} image={cardImage} title={title} /> : null}

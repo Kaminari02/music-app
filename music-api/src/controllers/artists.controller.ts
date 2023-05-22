@@ -8,6 +8,8 @@ import { CreateArtistDto } from "@src/dto/CreateArtist.dto";
 import authMiddleware from "@src/middlewares/auth.middleware";
 import { permitMiddleware } from "@src/middlewares/permit.middleware";
 import { UserRole } from "@src/helpers/enums/UserRole.enum";
+import Album from "@src/models/Album";
+import Track from "@src/models/Track";
 
 const controller = express.Router();
 
@@ -71,6 +73,30 @@ controller.put(
     } catch (e) {
       res.status(400).send(e);
       console.log(e)
+    }
+  }
+);
+
+controller.delete(
+  "/:id",
+  [authMiddleware, permitMiddleware(UserRole.Admin)],
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const reqArtist = await Artist.findByIdAndRemove(id);
+
+      if (reqArtist) {
+        const responseAlbum = await Album.find({ artist: id });
+
+        responseAlbum.forEach(async (elem) => {
+          return await Track.deleteMany({ album: elem._id })
+        })
+        const deleteAlbums = await Album.deleteMany({ artist: id });
+
+        res.send(deleteAlbums);
+      }
+    } catch (error) {
+      res.status(404).send("Error");
     }
   }
 );

@@ -14,10 +14,11 @@ interface Props {
   handleSaveTrack: () => Promise<void>;
   published: boolean;
   role?: string;
-  updateTrack?: () => Promise<void>
+  updateTrack?: () => Promise<void>;
+  deleteTrack?: () => Promise<void>;
 }
 
-const TrackItem = ({ track_num, title, duration, handleSaveTrack, published, role, updateTrack }: Props) => {
+const TrackItem = ({ track_num, title, duration, handleSaveTrack, published, role, updateTrack, deleteTrack }: Props) => {
 
   return (
     <>
@@ -36,7 +37,7 @@ const TrackItem = ({ track_num, title, duration, handleSaveTrack, published, rol
         {role === 'Admin'
           ?
           <ListItemButton sx={{ justifyContent: 'flex-end' }}>
-            <ListItemIcon aria-label="delete">
+            <ListItemIcon onClick={deleteTrack} aria-label="delete">
               <DeleteIcon />
             </ListItemIcon>
           </ListItemButton>

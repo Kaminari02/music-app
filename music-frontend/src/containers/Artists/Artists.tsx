@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Grid} from '@mui/material';
-import {useGetArtistsQuery, useUpdateArtistMutation} from '@/store/services/artist';
+import {useGetArtistsQuery, useUpdateArtistMutation, useDeleteArtistMutation} from '@/store/services/artist';
 import ArtistItem from '@/components/Artist/ArtistItem';
 import { useAppSelector } from '@/hooks/reduxHooks';
 import { IArtist } from '@/interfaces/IArtist';
@@ -12,7 +12,10 @@ const Artists = () => {
   const handleUpdate = async (id: string, artist: IArtist) => {
     await updateArtist({id: id, body: artist})
   }
-
+  const [deleteArtist] = useDeleteArtistMutation();
+  const handleDelete = async (id: string) => {
+    await deleteArtist(id)
+  }
   return (
     <Grid sx={{marginBottom: 5}} container direction="column" spacing={2}>
       <Grid item container direction="row">
@@ -38,6 +41,7 @@ const Artists = () => {
           :
           artist.published || user.role === 'Admin'  ?
               <ArtistItem
+                deleteArtist={() => handleDelete(artist._id)}
                 updateArtist={() => handleUpdate(artist._id, artist)}
                 role={user.role}
                 published={artist.published}

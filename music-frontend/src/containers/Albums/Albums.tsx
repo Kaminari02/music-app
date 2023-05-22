@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetAlbumsByArtistQuery, useUpdateAlbumMutation } from "@/store/services/album";
+import { useGetAlbumsByArtistQuery, useUpdateAlbumMutation, useDeleteAlbumMutation } from "@/store/services/album";
 import { Box, Card, CardContent, CardMedia, Grid, Typography, Divider } from "@mui/material";
 import AlbumItem from "@/components/Albums/AlbumItem";
 import { useAppSelector } from '@/hooks/reduxHooks';
@@ -16,7 +16,11 @@ const Albums = () => {
     const [updateAlbum] = useUpdateAlbumMutation();
     const handleUpdate = async (id: string, artist: IAlbum) => {
         await updateAlbum({id: id, body: artist})
-      }
+    }
+    const [deleteAlbum] = useDeleteAlbumMutation();
+    const handleDelete = async (id: string) => {
+        await deleteAlbum(id)
+    }
 
     if (albums && albums.length > 0) {
         artistImage = `${apiUrl}/uploads/artists/${albums[0].artist.image}`;
@@ -69,6 +73,7 @@ const Albums = () => {
                                     :
                                     album.published || user.role === 'Admin' ?
                                         <AlbumItem
+                                            deleteAlbum={() => handleDelete(album._id)}
                                             updateAlbum={() => handleUpdate(album._id, album)}
                                             role={user.role}
                                             published={album.published}

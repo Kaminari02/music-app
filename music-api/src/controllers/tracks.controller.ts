@@ -65,4 +65,18 @@ controller.put(
   }
 );
 
+controller.delete(
+  "/:id",
+  [authMiddleware, permitMiddleware(UserRole.Admin)],
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const reqTrack = await Track.findByIdAndRemove(id);
+      res.send(reqTrack)
+    } catch (error) {
+      res.status(404).send("Error");
+    }
+  }
+);
+
 export default controller;

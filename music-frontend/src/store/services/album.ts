@@ -30,9 +30,16 @@ const albumApi = api.injectEndpoints({
           },
           invalidatesTags: ["Album"]
         }
-      ),
+    ),
+    deleteAlbum:build.mutation<IAlbum , string >({
+        query:(id) => ({
+               url:`/albums/${id}`,
+               method:'delete',
+        }),
+        invalidatesTags:['Album' , 'Track']
+    }),
   }),
   overrideExisting: false,
 })
 
-export const {  useGetAlbumsQuery, useGetAlbumsByArtistQuery, useAddAlbumMutation, useUpdateAlbumMutation } = albumApi;
+export const {  useGetAlbumsQuery, useGetAlbumsByArtistQuery, useAddAlbumMutation, useUpdateAlbumMutation, useDeleteAlbumMutation } = albumApi;
