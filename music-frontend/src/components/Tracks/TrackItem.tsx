@@ -13,10 +13,11 @@ interface Props {
   duration: string;
   handleSaveTrack: () => Promise<void>;
   published: boolean;
-  role?: string
+  role?: string;
+  updateTrack?: () => Promise<void>
 }
 
-const TrackItem = ({ track_num, title, duration, handleSaveTrack, published, role }: Props) => {
+const TrackItem = ({ track_num, title, duration, handleSaveTrack, published, role, updateTrack }: Props) => {
 
   return (
     <>
@@ -26,7 +27,7 @@ const TrackItem = ({ track_num, title, duration, handleSaveTrack, published, rol
           ?
           <>
             <ListItemButton sx={{ justifyContent: 'flex-end' }}>
-              <ListItemIcon aria-label="publish">
+              <ListItemIcon onClick={updateTrack} aria-label="publish">
                 <ArrowCircleUpIcon />
               </ListItemIcon>
             </ListItemButton>

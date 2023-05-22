@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Grid} from '@mui/material';
-import {useGetArtistsQuery, useUpdatePostMutation} from '@/store/services/artist';
+import {useGetArtistsQuery, useUpdateArtistMutation} from '@/store/services/artist';
 import ArtistItem from '@/components/Artist/ArtistItem';
 import { useAppSelector } from '@/hooks/reduxHooks';
 import { IArtist } from '@/interfaces/IArtist';
@@ -8,9 +8,9 @@ import { IArtist } from '@/interfaces/IArtist';
 const Artists = () => {
   const { data: artists } = useGetArtistsQuery();
   const { user } = useAppSelector(state => state.auth);
-  const [updatePost] = useUpdatePostMutation();
+  const [updateArtist] = useUpdateArtistMutation();
   const handleUpdate = async (id: string, artist: IArtist) => {
-    await updatePost({id: id, body: artist})
+    await updateArtist({id: id, body: artist})
   }
 
   return (

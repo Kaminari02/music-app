@@ -15,9 +15,21 @@ const trackApi = api.injectEndpoints({
           body
         }),
         invalidatesTags: ['Track'],
-    })
+    }),
+    updateTrack: build.mutation<ITrack, { id: string; body: ITrack }>(
+        {
+          query({id, body}) {
+            return {
+              url: `/tracks/${id}/publish`,
+              method: "put",
+              body
+            };
+          },
+          invalidatesTags: ["Track"]
+        }
+    ),
   }),
   overrideExisting: false,
 })
 
-export const { useGetTracksQuery, useAddTrackMutation } = trackApi;
+export const { useGetTracksQuery, useAddTrackMutation, useUpdateTrackMutation } = trackApi;

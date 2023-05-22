@@ -11,10 +11,11 @@ interface Props {
     albumTitle: string;
     release_date: string;
     published: boolean;
-    role?: string
+    role?: string;
+    updateAlbum?: () => Promise<void>
 }
 
-const AlbumItem = ({ albumImg, id, albumTitle, release_date, published, role }: Props) => {
+const AlbumItem = ({ albumImg, id, albumTitle, release_date, published, role, updateAlbum }: Props) => {
     let albumImage;
 
     if (albumImg) {
@@ -26,7 +27,7 @@ const AlbumItem = ({ albumImg, id, albumTitle, release_date, published, role }: 
                 <CardContent sx={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
                 {!published ? 
                  <>
-                 <Chip label="unpublished" /><IconButton aria-label="publish"><ArrowCircleUpIcon /></IconButton>
+                 <Chip label="unpublished" /><IconButton onClick={updateAlbum} aria-label="publish"><ArrowCircleUpIcon /></IconButton>
                  </>
                 : null}
                 {role === 'Admin' ? <IconButton aria-label="delete"><DeleteIcon /></IconButton> : null}

@@ -18,9 +18,21 @@ const albumApi = api.injectEndpoints({
           body
         }),
         invalidatesTags: ['Album'],
-      })
+    }),
+    updateAlbum: build.mutation<IAlbum, { id: string; body: IAlbum }>(
+        {
+          query({id, body}) {
+            return {
+              url: `/albums/${id}/publish`,
+              method: "put",
+              body
+            };
+          },
+          invalidatesTags: ["Album"]
+        }
+      ),
   }),
   overrideExisting: false,
 })
 
-export const {  useGetAlbumsQuery, useGetAlbumsByArtistQuery, useAddAlbumMutation } = albumApi;
+export const {  useGetAlbumsQuery, useGetAlbumsByArtistQuery, useAddAlbumMutation, useUpdateAlbumMutation } = albumApi;

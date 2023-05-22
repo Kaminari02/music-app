@@ -63,7 +63,7 @@ controller.put(
           await result.save();
           res.send(result);
         } else {
-          return res.status(400).send({error: 'no such artist'});
+          return res.status(404).send({error: 'no such artist'});
         }
       } else {
         return res.status(400).send({error: 'wrong id'});

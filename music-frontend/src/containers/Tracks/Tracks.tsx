@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Card, CardContent, CardMedia, Divider, Grid, Typography, List, Snackbar } from "@mui/material";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { useGetTracksQuery } from "@/store/services/track";
+import { useGetTracksQuery, useUpdateTrackMutation } from "@/store/services/track";
 import { useSaveTrackMutation } from "@/store/services/trackHistory";
 import { apiUrl } from "@/common/constants";
 import TrackItem from "@/components/Tracks/TrackItem";
 import { useAppSelector } from "@/hooks/reduxHooks";
+import { ITrack } from "@/interfaces/ITrack";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -27,6 +28,10 @@ const Tracks = () => {
   const { id } = useParams();
 
   const { data: tracks } = useGetTracksQuery(id);
+  const [updateTrack] = useUpdateTrackMutation();
+  const handleUpdate = async (id: string, artist: ITrack) => {
+    await updateTrack({id: id, body: artist})
+  }
   let albumImage;
 
 
@@ -110,6 +115,7 @@ const Tracks = () => {
                   :
                   track.published || user.role === 'Admin' ?
                     <TrackItem
+                      updateTrack={() => handleUpdate(track._id, track)}
                       role={user.role}
                       published={track.published}
                       handleSaveTrack={() => handleSaveTrack(track._id)}

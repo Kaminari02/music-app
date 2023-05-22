@@ -15,7 +15,7 @@ const artistApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Artist"],
     }),
-    updatePost: build.mutation<IArtist, { id: string; body: IArtist }>(
+    updateArtist: build.mutation<IArtist, { id: string; body: IArtist }>(
       {
         query({id, body}) {
           return {
@@ -31,4 +31,4 @@ const artistApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetArtistsQuery, useAddArtistMutation, useUpdatePostMutation } = artistApi;
+export const { useGetArtistsQuery, useAddArtistMutation, useUpdateArtistMutation } = artistApi;

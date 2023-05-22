@@ -7,6 +7,9 @@ import { albumPath } from "config";
 import { CreateAlbumDto } from "@src/dto/CreateAlbum.dto";
 import Track from "@src/models/Track";
 import Artist from "@src/models/Artist";
+import authMiddleware from "@src/middlewares/auth.middleware";
+import { permitMiddleware } from "@src/middlewares/permit.middleware";
+import { UserRole } from "@src/helpers/enums/UserRole.enum";
 
 const controller = express.Router();
 
@@ -79,5 +82,29 @@ controller.get("/:id", async (req: Request, res: Response) => {
     res.sendStatus(500);
   }
 });
+
+controller.put(
+  "/:id/publish",
+  [authMiddleware, permitMiddleware(UserRole.Admin)],
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      if (id) {
+        const result = await Album.findOneAndUpdate({_id: id},{$set:{published: true}});
+        if (result) {
+          await result.save();
+          res.send(result);
+        } else {
+          return res.status(404).send({error: 'no such album'});
+        }
+      } else {
+        return res.status(400).send({error: 'wrong id'});
+      }
+    } catch (e) {
+      res.status(400).send(e);
+      console.log(e)
+    }
+  }
+);
 
 export default controller;

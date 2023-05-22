@@ -1,10 +1,11 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetAlbumsByArtistQuery } from "@/store/services/album";
+import { useGetAlbumsByArtistQuery, useUpdateAlbumMutation } from "@/store/services/album";
 import { Box, Card, CardContent, CardMedia, Grid, Typography, Divider } from "@mui/material";
 import AlbumItem from "@/components/Albums/AlbumItem";
 import { useAppSelector } from '@/hooks/reduxHooks';
 import { apiUrl } from "@/common/constants";
+import { IAlbum } from "@/interfaces/IAlbum";
 
 const Albums = () => {
     const { id } = useParams();
@@ -12,6 +13,10 @@ const Albums = () => {
 
     const { user } = useAppSelector(state => state.auth);
     const { data: albums } = useGetAlbumsByArtistQuery(id);
+    const [updateAlbum] = useUpdateAlbumMutation();
+    const handleUpdate = async (id: string, artist: IAlbum) => {
+        await updateAlbum({id: id, body: artist})
+      }
 
     if (albums && albums.length > 0) {
         artistImage = `${apiUrl}/uploads/artists/${albums[0].artist.image}`;
@@ -64,6 +69,7 @@ const Albums = () => {
                                     :
                                     album.published || user.role === 'Admin' ?
                                         <AlbumItem
+                                            updateAlbum={() => handleUpdate(album._id, album)}
                                             role={user.role}
                                             published={album.published}
                                             key={album._id}
