@@ -33,6 +33,7 @@ const Artists = () => {
           :
           artist.published || user.role === 'Admin'  ?
               <ArtistItem
+                role={user.role}
                 published={artist.published}
                 key={artist._id}
                 id={artist._id}

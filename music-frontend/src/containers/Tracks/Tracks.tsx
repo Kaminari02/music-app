@@ -110,6 +110,7 @@ const Tracks = () => {
                   :
                   track.published || user.role === 'Admin' ?
                     <TrackItem
+                      role={user.role}
                       published={track.published}
                       handleSaveTrack={() => handleSaveTrack(track._id)}
                       key={track._id}

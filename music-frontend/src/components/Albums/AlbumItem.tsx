@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Grid, Card, CardHeader, CardContent, CardActions, CardMedia, Button, Typography, Chip } from '@mui/material';
+import { Grid, Card, CardHeader, CardContent, CardActions, CardMedia, Button, Typography, Chip, IconButton } from '@mui/material';
 import { apiUrl } from '@/common/constants';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 interface Props {
     albumImg: string;
@@ -9,9 +11,10 @@ interface Props {
     albumTitle: string;
     release_date: string;
     published: boolean;
+    role?: string
 }
 
-const AlbumItem = ({ albumImg, id, albumTitle, release_date, published }: Props) => {
+const AlbumItem = ({ albumImg, id, albumTitle, release_date, published, role }: Props) => {
     let albumImage;
 
     if (albumImg) {
@@ -20,7 +23,14 @@ const AlbumItem = ({ albumImg, id, albumTitle, release_date, published }: Props)
     return (
         <Grid sx={{marginTop: 5}} item xs={12} sm={12} md={6} lg={4} minWidth={350}>
             <Card elevation={3} sx={{ height: "100%", maxWidth: 345 }}>
-                {!published ? <CardContent><Chip label="unpublished" /></CardContent> : null}
+                <CardContent sx={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+                {!published ? 
+                 <>
+                 <Chip label="unpublished" /><IconButton aria-label="publish"><ArrowCircleUpIcon /></IconButton>
+                 </>
+                : null}
+                {role === 'Admin' ? <IconButton aria-label="delete"><DeleteIcon /></IconButton> : null}
+                </CardContent>
                 {albumImage ? <CardMedia sx={{ height: 350 }} image={albumImage} title={albumTitle} /> : null}
                 <CardHeader title={albumTitle} />
                 <CardContent>
